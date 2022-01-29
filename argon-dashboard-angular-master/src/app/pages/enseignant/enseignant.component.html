@@ -1,0 +1,228 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Add new teacher!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #enseignantForm (submit)='saveEnseignant(enseignantForm)' method="POST">
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" name="name" id="name"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone" id="phone"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email" name="email"
+                                    id="inputEmail" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="matter" type="text" name="matter" id="matter"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" name="password"
+                                    id="inputPassword" required>
+                            </div>
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #content2 let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Update teacher!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #updateForm role="form" (submit)='updateEnseignant(updateForm)'>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text"
+                                    value="{{selectedEnseignant.name}}" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone"
+                                    value="{{selectedEnseignant.phone}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email"
+                                    value="{{selectedEnseignant.email}}" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Matter</label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="matter" type="text"
+                                    value="{{selectedEnseignant.matter}}" name="matter">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password"
+                                    value="{{selectedEnseignant.password}}" name="password">
+                            </div>
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <button class="btn btn-primary my-4" (click)="open(content)">Add new teacher</button>
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchText">
+
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Teachers List</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Matter</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let ens of enseignants |filter:searchText | paginate: { itemsPerPage: 2, currentPage: p }">
+
+                                <td>
+                                    {{ens.name}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-warning"></i> {{ens.email}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-info"> {{ens.matter}}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{ens.phone}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <button class="btn btn-success my-4 rounded-0" type="button"
+                                        (click)="open2(content2,ens)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button *ngIf="ens._id" (click)="deleteEnseignant(ens._id)"
+                                        class="btn btn-danger my-4 rounded-0" type="button">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <pagination-controls class="pagination pg-blue justify-content-center"
+                            (pageChange)="p = $event">
+                        </pagination-controls>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dark table -->
+
+</div>
