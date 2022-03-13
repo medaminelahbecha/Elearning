@@ -1,0 +1,145 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+
+        <ng-template #content4 let-c="close" let-d="dismiss">
+            <div class="modal-header" style="background-color:#e5f0a9; ">
+                <h4 class="modal-title" id="modal-basic-title">Warning</h4>
+                <button type="button" class="btn btn-danger btn-sm" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="background-color:#e5f0a9; ">
+                <b style="font-family: cursive;">Select Only 30 min</b>
+            </div>
+
+        </ng-template>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Add new Session!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #seanceForm (submit)='saveSeance(seanceForm)' method="POST">
+                        <div class="form-group">
+                            <label><b>Start Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input disabled value="{{calendarResponse.startStr | date:'MMM d, y, h:mm a'}}"
+                                    class="form-control" placeholder="Name" type="text" name="name" id="name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>End Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input disabled value="{{calendarResponse.endStr | date: 'MMM d, y, h:mm a'}}"
+                                    class="form-control" placeholder="Name" type="text" name="name" id="name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Teacher</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-chalkboard-teacher text-purple"></i></span>
+                                </div>
+                                <input disabled value="{{enseignant.name}}" class="form-control" placeholder="Teacher"
+                                    type="text" name="enseignant" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><b>Module Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="cour" id="cour" required
+                                    placeholder="Choose Module">
+                                    <option disabled>Choose Module </option>
+                                    <option *ngFor='let cour of cours' value="{{cour._id}}">{{cour.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label><b>Lesson Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="lesson" id="cours" required
+                                    placeholder="Choose Module">
+                                    <option disabled>Choose Lesson </option>
+                                    <option *ngFor='let le of lessons' value="{{le._id}}">{{le.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+    </div>
+</div>
+<br>
+<br>
+
+<form #teacherForm method="POST">
+    <div class="row flex-row">
+        <div class="col-1"></div>
+        <div class="col-4">
+
+
+            <div class="form-group">
+                <label><b>Teachers</b></label>
+                <div class="d-flex flex-row">
+                    <div class="input-group input-group-alternative  mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-chalkboard-teacher text-purple"></i></span>
+                        </div>
+                        <select class="form-control" placeholder="Teacher" name="enseignant" id="enseignant" required>
+                            <option disabled>Choose teacher </option>
+                            <option *ngFor='let ens of enseignants' value="{{ens._id}}">{{ens.name}} </option>
+                        </select>
+
+
+                    </div>
+                    <div class="col-1"></div>
+                    <button class="btn btn-outline-success mb-3" (click)="getTeacher(teacherForm)">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-5"></div>
+        <div class="col-2">
+            <button *ngIf="isStudent" class="btn btn-outline-danger mb-3" (click)="getStudentSessions()">My
+                Sessions</button>
+            <button *ngIf="isAdmin" class="btn btn-outline-danger mb-3" (click)="getAllSessions()">All Sessions</button>
+        </div>
+    </div>
+</form>
+
+<br>
+<br>
+
+<div class="container">
+    <full-calendar [options]='calendarOptions' (eventClick)="eventClick($event)"></full-calendar>
+</div>

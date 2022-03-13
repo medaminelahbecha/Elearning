@@ -1,0 +1,322 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <p-toast position="top-left" key="myKey1"></p-toast>
+        <p-toast position="top-left" key="myKey2"></p-toast>
+        <p-toast position="top-left" key="myKey3"></p-toast>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Add new Session!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #seanceForm (submit)='saveSeance(seanceForm)' method="POST">
+                        <div class="form-group">
+                            <label><b>Session Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-user-graduate text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" name="name" id="name"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Teachers</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-chalkboard-teacher text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="Teacher" name="enseignant" id="enseignant"
+                                    required>
+                                    <option disabled>Choose teacher </option>
+                                    <option *ngFor='let ens of enseignants' value="{{ens._id}}">{{ens.name}} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Start Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Date debut" type="datetime-local"
+                                    name="dateDebut" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>End Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Date fin" type="datetime-local" name="dateFin"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Type</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-quote-right text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Type" type="text" name="type" required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <ng-template #content2 let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Update Session!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #updateForm role="form" (submit)='updateSeance(updateForm)'>
+                        <div class="form-group">
+                            <label><b>Module Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="cour" id="cour" required
+                                    placeholder="Choose Module">
+                                    <option disabled>Choose Module </option>
+                                    <option *ngFor='let cour of cours' value="{{cour._id}}">{{cour.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label><b>Teachers</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-chalkboard-teacher text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="Teacher" value="{{selectedSeance.enseignant}}"
+                                    name="enseignant" id="enseignant" required>
+                                    <option disabled>Choose teacher </option>
+                                    <option *ngFor='let ens of enseignants' value="{{ens._id}}">{{ens.name}} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b> Start Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Date debut" type="datetime-local"
+                                    value="{{date}}" name="dateDebut" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>End Date</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-calendar-alt text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Date fin" type="datetime-local" name="dateFin"
+                                    value="selectedSeance.dateFin | date: 'dd , MMM  yyyy, hh:mm'" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Lesson Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="lesson" id="cours" required
+                                    placeholder="Choose Module">
+                                    <option disabled>Choose Lesson </option>
+                                    <option *ngFor='let le of lessons' value="{{le._id}}">{{le.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #content3 let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Update Teacher!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #updateTeacherr role="form" (submit)='updateTeacher(updateTeacherr)'>
+                        <div class="form-group">
+                            <label><b>Teachers</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i
+                                            class="fas fa-chalkboard-teacher text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="Teacher" value="{{selectedSeance.enseignant}}"
+                                    name="enseignant" id="enseignant" required>
+                                    <option disabled>Choose teacher </option>
+                                    <option *ngFor='let ens of enseignants' value="{{ens._id}}">{{ens.name}} </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <!-- <button *ngIf="isStudent" class="btn btn-success my-4" (click)="open(content)">Add new Session</button> -->
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchText">
+
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <h3 class="mb-0"><b>Sessions List</b></h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Module</th>
+                                <th scope="col">Teacher</th>
+                                <th scope="col">Student</th>
+
+                                <th scope="col">Session Room</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let sc of seances |filter:searchText | paginate: { itemsPerPage: 5, currentPage: p } ">
+
+                                <td>
+                                    {{sc?.cours?.name}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-warning"></i>{{sc?.enseignant?.name}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4"><i class="bg-info"></i> {{sc?.user?.name}}</span>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a class="btn btn-outline btn-sm"
+                                            style="background-color:#4B0082 ; color :white ; width: 3cm;"
+                                            href="{{sc.enseignant.url}}">Click</a>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <button (click)="open3(sc)" class="btn btn-success my-4 rounded-0" type="button">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+
+
+                                  <!--   <button *ngIf="isStudent" class="btn btn-warning my-4 rounded-0" type="button"
+                                        (click)="open2(content2,sc)">
+                                        <i class="fa fa-edit"></i>
+                                    </button> -->
+                                    <button class="btn btn-danger my-4 rounded-0" type="button"
+                                        *ngIf="sc._id && isStudent" (click)="open4(content4,sc._id)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-danger my-4 rounded-0" type="button"
+                                        *ngIf="sc._id && isAdmin" (click)="open2(content3,sc)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #content4 let-c="close" let-d="dismiss">
+                    <div class="modal-header" style="background-color:#C0C0C0;">
+                        <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+                        <button type="button" class="btn btn-danger" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure to delete this?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" (click)="d('Cross click')">Cancel</button>
+                        <button type="button" class="btn btn-success" (click)="c('yes')">Yes</button>
+                    </div>
+                </ng-template>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <pagination-controls class="pagination pg-blue justify-content-center"
+                            (pageChange)="p = $event">
+                        </pagination-controls>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

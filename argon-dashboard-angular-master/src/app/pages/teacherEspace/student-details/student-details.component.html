@@ -1,0 +1,398 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+  </div>
+</div>
+<br>
+<p-toast position="top-right" key="myKey1"></p-toast>
+<p-toast position="top-right" key="myKey2"></p-toast>
+<p-toast position="top-right" key="myKey3"></p-toast>
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item " style="background-color: #DC143C">
+          <div class="row">
+            <div class="col"><b style="color: white;">Student : </b></div>
+            <div class="col" style="color: white;">{{slectedStudent.name}}</div>
+
+          </div>
+        </li>
+        <li class="list-group-item " *ngIf="isAdmin">
+          <div class="row">
+            <div class="col"><b>Email : </b></div>
+            <div class="col">{{slectedStudent.email}}</div>
+          </div>
+        </li>
+        <li class="list-group-item " *ngIf="isAdmin">
+          <div class="row">
+            <div class="col"><b>Phone : </b></div>
+            <div class="col">{{slectedStudent.phone}}</div>
+          </div>
+        </li>
+        <li class="list-group-item ">
+          <div class="row">
+            <div class="col"><b>Gender : </b></div>
+            <div class="col">{{slectedStudent.gender}}</div>
+          </div>
+        </li>
+        <li class="list-group-item ">
+          <div class="row">
+            <div class="col"><b>Country : </b></div>
+            <div class="col">{{slectedStudent.country}}</div>
+          </div>
+        </li>
+        <li class="list-group-item ">
+          <div class="row">
+            <div class="col"><b>Niveau : </b></div>
+            <div class="col">
+
+              <button *ngIf="checkNiveau() && isTeacher" class="btn btn-primary my-4" (click)="open(content1)">Add
+                niveau</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th scope="col">*****</th>
+                    <th scope="col">LEVEL</th>
+                    <th scope="col"><button *ngIf="nv.user._id && isTeacher" class="btn btn-primary "
+                        (click)="open2(content2,nv)">Edit</button></th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th>
+                      Listening
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i>{{nv.listening}}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th>
+                      Reading
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i>{{nv.reading}}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th>
+                      Spoken Interraction
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i>{{nv.interraction}}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th>
+                      Spoken Peoduction
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i>{{nv.production}}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let nv of niveaux ">
+
+                    <th>
+                      Writing
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i>{{nv.writing}}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </li>
+
+
+      </ul>
+      <br>
+      <form #commentaireForm *ngIf="isTeacher" role="form" (submit)='addCommentaire(commentaireForm)'>
+
+        <div class="coment-bottom bg-white p-2 px-4">
+          <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+            <input type="text" class="form-control mr-3" placeholder="Add comment" name="description" required>
+            <button *ngIf="isTeacher" class="btn btn-primary" type="submit">Comment</button>
+          </div>
+          <div class="collapsable-comment">
+            <div class="d-flex flex-row justify-content-between align-items-center action-collapse p-2"
+              data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1">
+              <span>Comments</span>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: 	#DC143C"><b style="color: white;">commentaires</b></li>
+        <li *ngFor="let com of commentaires" class="list-group-item ">
+          <div class="d-flex justify-content-between">
+
+            <div><span class="font-weight-bold">{{com.enseignant.name}}</span></div>
+            <div> <span class="day">{{com.date | date: 'MMM d, y, h:mm:ss a'}}</span></div>
+
+
+
+          </div>
+          <div class="commented-section mt-2">
+            <div class="comment-text-sm">
+              <span>{{com.description}}</span>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+<ng-template #content1 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+
+    <h4 class="modal-title" id="modal-basic-title">Add Level!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body px-lg-5 py-lg-5">
+
+      <form #niveauForm method="POST" (submit)='addNiveau(niveauForm)'>
+        <div class="form-group">
+          <label><b>Listening</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="listening" id="listening" required>
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Reading</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="reading" id="reading" required>
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Spoken Interraction</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="interraction" id="interraction" required>
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Spoken Production</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="production" id="production" required>
+              <option>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Writing</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="writing" id="writing" required>
+              <option>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mt-4">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #content2 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+
+    <h4 class="modal-title" id="modal-basic-title">Update Level!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body px-lg-5 py-lg-5">
+
+      <form #updateForm method="POST" (submit)='updateNiveau(updateForm)'>
+        <div class="form-group">
+          <label><b>Listening</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="listening" id="listening" required value="{{selectedNiveau.listening}}">
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Reading</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="reading" id="reading" required value="{{selectedNiveau.reading}}">
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Spoken Interraction</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="interraction" id="interraction" required
+              value="{{selectedNiveau.interraction}}">
+              <option disabled>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Spoken Production</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="production" id="production" required
+              value="{{selectedNiveau.production}}">
+              <option>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><b>Writing</b></label>
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <select class="form-control" name="writing" id="writing" required value="{{selectedNiveau.writing}}">
+              <option>Choose Level </option>
+              <option value="A1">A1 </option>
+              <option value="A2">A2 </option>
+              <option value="B1">B1 </option>
+              <option value="B2">B2 </option>
+              <option value="C1">C1 </option>
+              <option value="C2">C2 </option>
+
+            </select>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mt-4">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</ng-template>

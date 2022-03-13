@@ -1,0 +1,295 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <p-toast position="top-left" key="myKey1"></p-toast>
+        <p-toast position="top-left" key="myKey2"></p-toast>
+        <p-toast position="top-left" key="myKey3"></p-toast>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Add new Student!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #form (submit)='signup($event)' method="POST">
+                        <div class="form-group">
+                            <label><b>Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" name="name" id="name"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Phone</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone" id="phone"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Email</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83 text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email" name="email"
+                                    id="inputEmail" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Country</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-flag text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="country" name="country" id="country" required>
+                                    <option disabled>Choose country </option>
+                                    <option *ngFor='let country  of myData' value="{{country.text}}">{{country.text}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Gender</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-neuter text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="Gender" name="gender" id="gender" required>
+                                    <option disabled>Choose gender </option>
+                                    <option value="Man">Man </option>
+                                    <option value="Women">Women </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Password</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" name="password"
+                                    id="inputPassword" required>
+                            </div>
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #content2 let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Update Student!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #updateForm role="form" (submit)='updateStudent(updateForm)'>
+                        <div class="form-group">
+                            <label><b>Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" value="{{selectedUser.name}}"
+                                    name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Phone</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone"
+                                    value="{{selectedUser.phone}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Email</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83 text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email"
+                                    value="{{selectedUser.email}}" name="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><b>Country</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-flag text-purple"></i></span>
+                                </div>
+                                <select class="form-control" placeholder="country" type="text" name="country"
+                                    value="{{selectedUser.country}}">
+                                    <option disabled>Choose country </option>
+                                    <option *ngFor='let country  of myData'
+                                        [selected]='selectedUser.country==country.text' value="{{country.text}}">
+                                        {{country.text}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Gender</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-neuter text-purple"></i></span>
+                                </div>
+                                <select class="form-control" type="text" placeholder="Gender" name="gender"
+                                    value="{{selectedUser.gender}}" required>
+                                    <option disabled>Choose gender </option>
+                                    <option value="Man">Man </option>
+                                    <option value="Women">Women </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <button class="btn btn-success my-4" (click)="open(content)">Add new student</button>
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchText">
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Students List</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+
+                                <th scope="col">Phone</th>
+                                <th scope="col">Country</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let user of users |filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }">
+
+                                <td>
+                                    {{user.name}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-warning"></i> {{user.email}}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{user.phone}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{user.country}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{user.gender}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <button (click)="open3(user)" class="btn btn-primary my-4 rounded-0" type="button">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+
+                                    <button class="btn btn-warning my-4 rounded-0" type="button"
+                                        (click)="open2(content2,user)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button *ngIf="user._id" (click)="open4(content4,user._id)"
+                                        class="btn btn-danger my-4 rounded-0" type="button">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <ng-template #content4 let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+                            <button type="button" class="btn btn-danger" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure to delete this?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" (click)="d('Cross click')">Cancel</button>
+                            <button type="button" class="btn btn-success" (click)="c('yes')">Yes</button>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-end mb-0">
+                            <pagination-controls class="pagination pg-blue justify-content-center  "
+                                (pageChange)="p = $event">
+                            </pagination-controls>
+
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dark table -->
+
+</div>

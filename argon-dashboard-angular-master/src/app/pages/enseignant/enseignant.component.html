@@ -1,0 +1,310 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <p-toast position="top-left" key="myKey1"></p-toast>
+        <p-toast position="top-left" key="myKey2"></p-toast>
+        <p-toast position="top-left" key="myKey3"></p-toast>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Add new teacher!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #enseignantForm (submit)='saveEnseignant(enseignantForm)' method="POST">
+                        <div class="form-group">
+                            <label><b>Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" name="name" id="name"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Langue</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <ng-multiselect-dropdown class="form-control" name="items"
+                                    (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                                    [settings]="dropdownSettings" [data]="dropdownList">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Phone</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone" id="phone"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Email</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83 text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email" name="email"
+                                    id="inputEmail" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Module Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="cours" id="cours" required
+                                    placeholder="Choose Module">
+                                    <option disabled>Choose Module </option>
+                                    <option *ngFor='let cour of cours' value="{{cour._id}}">{{cour.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label><b>URL</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-stream text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="URL" type="text" name="url" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Password</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" name="password"
+                                    id="inputPassword" required>
+                            </div>
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #content2 let-d="dismiss">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="modal-basic-title">Update teacher!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form #updateForm role="form" (submit)='updateEnseignant(updateForm)'>
+                        <div class="form-group">
+                            <label><b>Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text"
+                                    value="{{selectedEnseignant.name}}" name="name">
+                            </div>
+                        </div>
+                        <div>
+                            <label><b>Langue</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user text-purple"></i></span>
+                                </div>
+                                <ng-multiselect-dropdown name="items" (onSelect)="onItemSelect($event)"
+                                    (onDeSelect)="onItemDeSelect($event)" [settings]="dropdownSettings"
+                                    [data]="dropdownList">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Phone</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Phone" type="text" name="phone"
+                                    value="{{selectedEnseignant.phone}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Email</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83 text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email"
+                                    value="{{selectedEnseignant.email}}" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Module Name</b></label>
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clipboard text-purple"></i></span>
+                                </div>
+                                <select class="form-control mr-4" name="cours" id="cours" required
+                                    placeholder="Choose Module" value="{{selectedEnseignant.cours}}">
+                                    <option disabled>Choose Module </option>
+                                    <option *ngFor='let cour of cours' value="{{cour._id}}">{{cour.name}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label><b>URL</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-stream text-purple"></i></span>
+                                </div>
+                                <input class="form-control" value="{{selectedEnseignant.url}}" placeholder="URL"
+                                    type="text" name="url" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Password</b></label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key text-purple"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password"
+                                    value="{{selectedEnseignant.password}}" name="password">
+                            </div>
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+        <button class="btn btn-success my-4" (click)="open(content)">Add new teacher</button>
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchText">
+
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Teachers List</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Module</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Seesion Room</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let ens of enseignants |filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }">
+
+                                <td>
+                                    {{ens?.name}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-warning"></i> {{ens?.email}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-info"> {{ens?.cours?.name}}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{ens?.phone}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a class="btn btn-outline-primary" href="{{ens.url}}">Click</a>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <button (click)="open3(ens)" class="btn btn-success my-4 rounded-0" type="button">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-warning my-4 rounded-0" type="button"
+                                        (click)="open2(content2,ens)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button *ngIf="ens._id" (click)="open4(content4,ens._id)"
+                                        class="btn btn-danger my-4 rounded-0" type="button">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #content4 let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+                        <button type="button" class="btn btn-danger" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure to delete this?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" (click)="d('Cross click')">Cancel</button>
+                        <button type="button" class="btn btn-success" (click)="c('yes')">Yes</button>
+                    </div>
+                </ng-template>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <pagination-controls class="pagination pg-blue justify-content-center"
+                            (pageChange)="p = $event">
+                        </pagination-controls>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dark table -->
+
+</div>

@@ -1,0 +1,107 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <p-toast position="top-left" key="myKey1"></p-toast>
+        <p-toast position="top-left" key="myKey2"></p-toast>
+        <p-toast position="top-left" key="myKey3"></p-toast>
+
+
+
+
+
+        <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchText">
+
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Sessions List</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Module</th>
+                                <th scope="col">Teacher</th>
+                                <th scope="col">Student</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Lesson</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let sc of seances |filter:searchText | paginate: { itemsPerPage: 5, currentPage: p } ">
+
+                                <td>
+                                    {{sc?.cours?.name}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-warning"></i>{{sc?.enseignant?.name}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-dot mr-4"><i class="bg-info"></i> {{sc?.user?.name}}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{sc?.dateDebut | date: 'MMM d, y, h:mm:ss a'}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{sc?.dateFin | date: 'MMM d, y, h:mm:ss a'}}</span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">{{sc?.lesson?.name}}</span>
+
+                                    </div>
+                                </td>
+
+                                <td>
+
+                                    <button (click)="open2(sc)" class="btn btn-icon btn-3 btn-outline-primary"
+                                        type="button">
+                                        <span class="btn-inner--icon"><i class="ni ni-bag-17"></i></span>
+                                        <span class="btn-inner--text"> detail ..</span>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <pagination-controls class="pagination pg-blue justify-content-center"
+                            (pageChange)="p = $event">
+                        </pagination-controls>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

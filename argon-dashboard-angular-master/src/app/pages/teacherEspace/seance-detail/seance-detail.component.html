@@ -1,0 +1,183 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <p-toast position="top-left" key="myKey2"></p-toast>
+    </div>
+</div>
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card card-profile shadow">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 order-lg-2">
+                        <div class="card-profile-image">
+                            <a href="javascript:void(0)">
+                                <img src="assets/img/brand/user.png" class="rounded-circle">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    <div class="d-flex justify-content-between">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Student</a>
+
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="card-body pt-0 pt-md-4">
+
+                    <div class="text-center">
+                        <h3>
+                            <b style="color: #6495ED"> Name</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.user?.name}}</span>
+                        </h3>
+                        <h3>
+                            <b style="color: #6495ED"> Email</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.user?.email}}</span>
+                        </h3>
+                        <h3>
+                            <b style="color: #6495ED"> Phone</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.user?.phone}}</span>
+                        </h3>
+                        <h3>
+                            <b style="color: #6495ED"> Country</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.user?.country}}</span>
+                        </h3>
+                        <h3>
+                            <b style="color: #6495ED"> Gender</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.user?.gender}}</span>
+                        </h3>
+                        <h3>
+                            <b style="color: #6495ED"> Presence</b> <span class="font-weight-light"> :
+                                {{selectedSeance?.presence}}</span>
+                        </h3>
+                        <br>
+                        <h3 *ngIf="isTeacher">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                                <label (click)='changeStatus("absent" ,selectedSeance)' class="btn  btn-sm"
+                                    [class.btn-warning]='selectedSeance.presence=="absent"'
+                                    [class.btn-light]='selectedSeance.presence!="absent"'>
+                                    Absent
+                                </label>
+                                <label (click)='changeStatus("present",selectedSeance)' class="btn btn-light btn-sm"
+                                    [class.btn-success]='selectedSeance.presence=="present"'
+                                    [class.btn-light]='selectedSeance.presence!="present"'>
+                                    Present
+                                </label>
+
+                            </div>
+                        </h3>
+
+
+                        <button *ngIf="isTeacher || isAdmin" class="btn btn-outline-danger"
+                            (click)="open2(selectedSeance.user)">Show more</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Session Details</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a class="btn btn-sm btn-primary">{{selectedSeance?.enseignant?.name}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h6 class="heading-small text-muted mb-4">Session information</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="form-control-label">
+                                        <b> Module</b> <span class="font-weight-light"> :
+                                            {{selectedSeance?.cours?.name}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-control-label">
+                                        <b> Lesson</b> <span class="font-weight-light"> :
+                                            {{selectedSeance?.lesson?.name}}</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="form-control-label">
+                                        <b> Start Date</b> <span class="font-weight-light"> :
+                                            {{selectedSeance?.dateDebut | date: 'MMM d, y, h:mm a'}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-control-label">
+                                        <b> End Date</b> <span class="font-weight-light"> :
+                                            {{selectedSeance?.dateFin | date: 'MMM d, y, h:mm a'}}</span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <hr class="my-4" />
+                        <!-- Address -->
+                        <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                        <div class="pl-lg-4">
+                            <label class="form-control-label">
+                                <b> Session Room</b> <span class="font-weight-light"> :
+                                    <a href="{{selectedSeance?.enseignant?.url}}" class="btn btn-sm btn-primary">Click
+                                        Me</a></span>
+                            </label>
+
+                        </div>
+                        <hr class="my-4" />
+                        <!-- Description -->
+                        <h6 class="heading-small text-muted mb-4">Session Report</h6>
+                        <div *ngIf="isTeacher" class="pl-lg-4">
+                            <div class="form-group">
+                                <label>Teacher Report</label>
+                                <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent">
+                                </angular-editor>
+                            </div>
+                            <button class="btn btn-outline-danger" (click)="sendResume()">Send
+                                Resume</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row flex-row">
+                        <div class="col-11">
+                            <h2><b>Resume</b></h2>
+                        </div>
+
+                        <div class="col-1">
+                            <button class="btn btn-icon btn-outline-danger" (click)="openPDF()" type="button">
+                                <span class="btn-inner--icon"><i class='fas fa-file-pdf'></i></span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="htmlData" class="card-body" *ngIf="selectedSeance.resume">
+
+                    <p class="card-text">{{resume}}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
